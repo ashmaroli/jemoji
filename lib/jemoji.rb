@@ -81,11 +81,11 @@ module Jekyll
       end
 
       def replace_document_body(doc)
-        src                 = emoji_src(doc.site.config)
-        head, opener, tail  = doc.output.partition(OPENING_BODY_TAG_REGEX)
-        body_content, *rest = tail.partition("</body>")
-        processed_markup    = filter_with_emoji(src).call(body_content)[:output].to_s
-        String.new(head) << opener << processed_markup << rest.join
+        src                   = emoji_src(doc.site.config)
+        head, opener, tail    = doc.output.partition(OPENING_BODY_TAG_REGEX)
+        body_content, _, rest = tail.partition("</body>")
+        processed_markup      = filter_with_emoji(src).call(body_content)[:output].to_s
+        head << opener << processed_markup << "</body>" << rest
       end
     end
   end
